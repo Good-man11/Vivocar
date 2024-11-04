@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تعليمات حول السيارات</title>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.0.3/dist/tesseract.min.js"></script> <!-- مكتبة Tesseract.js -->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -51,7 +52,7 @@
             justify-content: center;
             align-items: center;
             font-size: 24px;
-            background-image: url('/mnt/data/download.png'); /* مسار الصورة */
+            background-image: url('/mnt/data/download.png');
             background-size: cover;
             background-position: center;
         }
@@ -106,6 +107,15 @@
             width: 300px;
             border-radius: 8px;
         }
+        #ocrResult {
+            margin-top: 20px;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            max-width: 300px;
+            text-align: right;
+        }
     </style>
 </head>
 <body>
@@ -133,6 +143,7 @@
     <video id="video" autoplay></video>
     <button id="captureButton" class="info-button">التقاط صورة</button>
     <canvas id="canvas" style="display: none;"></canvas>
+    <div id="ocrResult">النص المستخرج سيظهر هنا</div>
 </div>
 
 <script>
@@ -169,6 +180,7 @@
     var captureButton = document.getElementById("captureButton");
     var canvas = document.getElementById("canvas");
     var context = canvas.getContext("2d");
+    var ocrResult = document.getElementById("ocrResult");
 
     document.getElementById("circleBtn").onclick = async function() {
         cameraContainer.style.display = "flex";
@@ -185,6 +197,16 @@
         canvas.height = video.videoHeight;
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
         canvas.style.display = "block";
+        
+        // استخراج النص من الصورة باستخدام Tesseract.js
+        Tesseract.recognize(canvas, 'ara')
+            .then(({ data: { text } }) => {
+                ocrResult.textContent = text ? text : "لم يتم العثور على نص.";
+            })
+            .catch(error => {
+                ocrResult.textContent = "حدث خطأ أثناء استخراج النص.";
+                console.error(error);
+            });
     };
 </script>
 
