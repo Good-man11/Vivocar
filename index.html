@@ -13,9 +13,19 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            flex-direction: column;
         }
-        .container {
+        /* تأثير ظهور تدريجي للرسالة */
+        .welcome-message {
+            font-size: 24px;
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+        }
+        /* تأثير الظهور التدريجي للأزرار */
+        .buttons {
+            display: none; /* مخفي بشكل افتراضي */
             text-align: center;
+            margin-top: 20px;
         }
         /* تصميم زر المعلومات */
         .info-button {
@@ -49,7 +59,12 @@
         .circle-button:hover {
             background-color: #218838;
         }
-        /* تصميم مربع الحوار */
+        /* تأثير الظهور */
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
         .modal {
             display: none;
             position: fixed;
@@ -86,8 +101,10 @@
 </head>
 <body>
 
-<div class="container">
-    <h2>مرحبًا بك في موقعنا!</h2>
+<div class="welcome-message">مرحبًا بك في موقعي!</div>
+
+<!-- الأزرار، تظهر بعد تأخير بسيط -->
+<div class="buttons" id="buttonsContainer">
     <button class="info-button" id="infoBtn" aria-label="اضغط لعرض تعليمات حول السيارات">تعليمات حول السيارات</button>
     <button class="circle-button" id="circleBtn" aria-label="زر دائري">+</button>
 </div>
@@ -106,23 +123,29 @@
 </div>
 
 <script>
-    // الحصول على العناصر
+    // تأخير ظهور الأزرار حتى تظهر الرسالة بالكامل
+    window.onload = function() {
+        setTimeout(function() {
+            document.getElementById("buttonsContainer").style.display = "block";
+        }, 2000); // يظهر بعد 2 ثانية من تحميل الصفحة
+    };
+
+    // عرض مربع الحوار عند النقر على الزر
     var modal = document.getElementById("myModal");
     var btn = document.getElementById("infoBtn");
     var span = document.getElementById("closeBtn");
 
-    // عند النقر على الزر، يظهر مربع الحوار
     btn.onclick = function() {
         modal.style.display = "block";
         span.focus();
     }
 
-    // عند النقر على زر الإغلاق، يتم إغلاق مربع الحوار
+    // إغلاق مربع الحوار عند النقر على زر الإغلاق
     span.onclick = function() {
         modal.style.display = "none";
     }
 
-    // عند النقر في أي مكان خارج مربع الحوار، يتم إغلاقه
+    // إغلاق مربع الحوار عند النقر خارج المربع
     window.onclick = function(event) {
         if (event.target == modal) {
             modal.style.display = "none";
@@ -136,6 +159,10 @@
         }
     });
 </script>
+
+</body>
+</html>
+
 
 </body>
 </html>
