@@ -51,6 +51,9 @@
             justify-content: center;
             align-items: center;
             font-size: 24px;
+            background-image: url('/mnt/data/download.png'); /* مسار الصورة */
+            background-size: cover;
+            background-position: center;
         }
         .circle-button:hover {
             background-color: #218838;
@@ -92,7 +95,6 @@
         .close:focus {
             color: black;
         }
-        /* تصميم لإطار معاينة الفيديو */
         #cameraContainer {
             display: none;
             flex-direction: column;
@@ -112,10 +114,9 @@
 
 <div class="buttons" id="buttonsContainer">
     <button class="info-button" id="infoBtn">تعليمات حول السيارات</button>
-    <button class="circle-button" id="circleBtn">📷</button>
+    <button class="circle-button" id="circleBtn"></button>
 </div>
 
-<!-- مربع الحوار -->
 <div id="myModal" class="modal">
     <div class="modal-content">
         <span class="close" id="closeBtn">&times;</span>
@@ -128,7 +129,6 @@
     </div>
 </div>
 
-<!-- معاينة الكاميرا وحفظ الصورة -->
 <div id="cameraContainer">
     <video id="video" autoplay></video>
     <button id="captureButton" class="info-button">التقاط صورة</button>
@@ -136,14 +136,12 @@
 </div>
 
 <script>
-    // تأخير ظهور الأزرار
     window.onload = function() {
         setTimeout(function() {
             document.getElementById("buttonsContainer").style.display = "block";
         }, 2000);
     };
 
-    // إعداد مربع الحوار
     var modal = document.getElementById("myModal");
     var btn = document.getElementById("infoBtn");
     var span = document.getElementById("closeBtn");
@@ -166,7 +164,6 @@
         }
     });
 
-    // إعداد الكاميرا وزر الالتقاط
     var video = document.getElementById("video");
     var cameraContainer = document.getElementById("cameraContainer");
     var captureButton = document.getElementById("captureButton");
@@ -183,7 +180,6 @@
         }
     };
 
-    // التقاط الصورة وعرضها على الـcanvas
     captureButton.onclick = function() {
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
@@ -194,7 +190,6 @@
 
 </body>
 </html>
-
 
 </body>
 </html>
