@@ -8,9 +8,16 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #f3f3f3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
             text-align: center;
         }
-        /* تصميم زر */
+        /* تصميم زر المعلومات */
         .info-button {
             padding: 10px 20px;
             background-color: #007BFF;
@@ -19,9 +26,28 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            margin-bottom: 20px;
         }
         .info-button:hover {
             background-color: #0056b3;
+        }
+        /* تصميم الزر الدائري */
+        .circle-button {
+            width: 50px;
+            height: 50px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+        }
+        .circle-button:hover {
+            background-color: #218838;
         }
         /* تصميم مربع الحوار */
         .modal {
@@ -60,8 +86,11 @@
 </head>
 <body>
 
-<h2>مرحبًا بك في موقعنا!</h2>
-<button class="info-button" id="infoBtn" aria-label="اضغط لعرض تعليمات حول السيارات">تعليمات حول السيارات</button>
+<div class="container">
+    <h2>مرحبًا بك في موقعنا!</h2>
+    <button class="info-button" id="infoBtn" aria-label="اضغط لعرض تعليمات حول السيارات">تعليمات حول السيارات</button>
+    <button class="circle-button" id="circleBtn" aria-label="زر دائري">+</button>
+</div>
 
 <!-- مربع الحوار -->
 <div id="myModal" class="modal" role="dialog" aria-labelledby="dialog-title" aria-hidden="true">
