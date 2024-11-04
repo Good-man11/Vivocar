@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تعليمات حول السيارات</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        /* تصميم زر */
+        .info-button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        /* تصميم مربع الحوار */
+        .modal {
+            display: none; /* مخفي بشكل افتراضي */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h2>مرحبًا بك في موقعنا!</h2>
+<button class="info-button" id="infoBtn">تعليمات حول السيارات</button>
+
+<!-- مربع الحوار -->
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeBtn">&times;</span>
+        <h2>تعليمات حول السيارات</h2>
+        <p>1. تأكد من فحص زيت المحرك بانتظام.</p>
+        <p>2. تحقق من ضغط الإطارات شهريًا.</p>
+        <p>3. قم بتغيير فلتر الهواء كل 12,000 ميل.</p>
+        <p>4. احرص على فحص نظام الفرامل بشكل دوري.</p>
+        <p>5. تأكد من وجود طفاية حريق في السيارة.</p>
+    </div>
+</div>
+
+<script>
+    // الحصول على العناصر
+    var modal = document.getElementById("myModal");
+    var btn = document.getElementById("infoBtn");
+    var span = document.getElementById("closeBtn");
+
+    // عند النقر على الزر، يظهر مربع الحوار
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    // عند النقر على زر الإغلاق، يتم إغلاق مربع الحوار
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // عند النقر في أي مكان خارج مربع الحوار، يتم إغلاقه
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
+</body>
+</html>
