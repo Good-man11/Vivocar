@@ -15,19 +15,16 @@
             margin: 0;
             flex-direction: column;
         }
-        /* تأثير ظهور تدريجي للرسالة */
         .welcome-message {
             font-size: 24px;
             opacity: 0;
             animation: fadeIn 2s forwards;
         }
-        /* تأثير الظهور التدريجي للأزرار */
         .buttons {
-            display: none; /* مخفي بشكل افتراضي */
+            display: none;
             text-align: center;
             margin-top: 20px;
         }
-        /* تصميم زر المعلومات */
         .info-button {
             padding: 10px 20px;
             background-color: #007BFF;
@@ -41,7 +38,6 @@
         .info-button:hover {
             background-color: #0056b3;
         }
-        /* تصميم الزر الدائري */
         .circle-button {
             width: 50px;
             height: 50px;
@@ -59,7 +55,6 @@
         .circle-button:hover {
             background-color: #218838;
         }
-        /* تأثير الظهور */
         @keyframes fadeIn {
             to {
                 opacity: 1;
@@ -97,23 +92,34 @@
         .close:focus {
             color: black;
         }
+        /* تصميم لإطار معاينة الفيديو */
+        #cameraContainer {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        video, canvas {
+            max-width: 100%;
+            width: 300px;
+            border-radius: 8px;
+        }
     </style>
 </head>
 <body>
 
 <div class="welcome-message">مرحبًا بك في موقعي!</div>
 
-<!-- الأزرار، تظهر بعد تأخير بسيط -->
 <div class="buttons" id="buttonsContainer">
-    <button class="info-button" id="infoBtn" aria-label="اضغط لعرض تعليمات حول السيارات">تعليمات حول السيارات</button>
-    <button class="circle-button" id="circleBtn" aria-label="زر دائري">+</button>
+    <button class="info-button" id="infoBtn">تعليمات حول السيارات</button>
+    <button class="circle-button" id="circleBtn">📷</button>
 </div>
 
 <!-- مربع الحوار -->
-<div id="myModal" class="modal" role="dialog" aria-labelledby="dialog-title" aria-hidden="true">
+<div id="myModal" class="modal">
     <div class="modal-content">
-        <span class="close" id="closeBtn" aria-label="إغلاق مربع الحوار">&times;</span>
-        <h2 id="dialog-title">تعليمات حول السيارات</h2>
+        <span class="close" id="closeBtn">&times;</span>
+        <h2>تعليمات حول السيارات</h2>
         <p>1. تأكد من فحص زيت المحرك بانتظام.</p>
         <p>2. تحقق من ضغط الإطارات شهريًا.</p>
         <p>3. قم بتغيير فلتر الهواء كل 12,000 ميل.</p>
@@ -122,15 +128,22 @@
     </div>
 </div>
 
+<!-- معاينة الكاميرا وحفظ الصورة -->
+<div id="cameraContainer">
+    <video id="video" autoplay></video>
+    <button id="captureButton" class="info-button">التقاط صورة</button>
+    <canvas id="canvas" style="display: none;"></canvas>
+</div>
+
 <script>
-    // تأخير ظهور الأزرار حتى تظهر الرسالة بالكامل
+    // تأخير ظهور الأزرار
     window.onload = function() {
         setTimeout(function() {
             document.getElementById("buttonsContainer").style.display = "block";
-        }, 2000); // يظهر بعد 2 ثانية من تحميل الصفحة
+        }, 2000);
     };
 
-    // عرض مربع الحوار عند النقر على الزر
+    // إعداد مربع الحوار
     var modal = document.getElementById("myModal");
     var btn = document.getElementById("infoBtn");
     var span = document.getElementById("closeBtn");
@@ -139,25 +152,44 @@
         modal.style.display = "block";
         span.focus();
     }
-
-    // إغلاق مربع الحوار عند النقر على زر الإغلاق
     span.onclick = function() {
         modal.style.display = "none";
     }
-
-    // إغلاق مربع الحوار عند النقر خارج المربع
     window.onclick = function(event) {
         if (event.target == modal) {
             modal.style.display = "none";
         }
     }
-
-    // إغلاق مربع الحوار عند الضغط على زر Escape
     window.addEventListener("keydown", function(event) {
         if (event.key === "Escape") {
             modal.style.display = "none";
         }
     });
+
+    // إعداد الكاميرا وزر الالتقاط
+    var video = document.getElementById("video");
+    var cameraContainer = document.getElementById("cameraContainer");
+    var captureButton = document.getElementById("captureButton");
+    var canvas = document.getElementById("canvas");
+    var context = canvas.getContext("2d");
+
+    document.getElementById("circleBtn").onclick = async function() {
+        cameraContainer.style.display = "flex";
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            video.srcObject = stream;
+        } catch (error) {
+            alert("لم يتم السماح بالوصول إلى الكاميرا.");
+        }
+    };
+
+    // التقاط الصورة وعرضها على الـcanvas
+    captureButton.onclick = function() {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        canvas.style.display = "block";
+    };
 </script>
 
 </body>
